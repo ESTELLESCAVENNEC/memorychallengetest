@@ -1,0 +1,43 @@
+<html>
+  <div class="result">
+    <head>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+          <img src="amemory-logo.png" alt="">
+        </a>
+      </nav>
+  <head>
+    <body>
+      <div class="submit-country">
+        <%= form_tag "payments", :method => 'post' do %> <%= select_tag "country", options_for_select(@countries)%>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <% end %>
+      </div>
+      <div class="card-country">
+        <a><%= @country %></a>
+      </div>
+      <div class="info-cards">
+        <div class="card">
+          <h2>Total revenue</h2>
+          <p><%=@revenue%> €</p>
+        </div>
+        <div class="card">
+          <h2>Average revenue / order</h2>
+          <p><%= @revenueaverage.round(0) %> €</p>
+        </div>
+        <div class="card">
+          <h2>Total customers</h2>
+          <p><%= @customer %></p>
+        </div>
+      </div>
+      <div class="graph">
+        <h1>Revenue per month</h1>
+        <%= @m %>
+        <script>
+          <%= javascript_tag do -%> google.charts.load('current', {'packages'😞'bar']}); google.charts.setOnLoadCallback(drawChart); function drawChart() { var data = JSON.parse('<%= @m.to_json.html_safe -%>'); data = [['Month/Year', 'Amount (â‚¬)']].concat(data); data = google.visualization.arrayToDataTable(data); var options = { chart: { title: 'Sales by month', } }; var chart = new google.charts.Bar(document.getElementById('chart')); chart.draw(data, google.charts.Bar.convertOptions(options)); }
+          <% end %>
+        </script>
+      </div>
+    </body>
+  </div>
+</html>
